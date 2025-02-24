@@ -1,5 +1,6 @@
 //start
 radio.setGroup(158)
+let lock: boolean = false
 
 function connectionTest(){
     music.playTone(Note.C, 500)
@@ -17,10 +18,22 @@ function runStart(){
 }
 
 Sensors.OnLightDrop(function() {
-    runStart()
+    if (!lock){
+        lock = true
+        runStart()
+    }
+})
+
+input.onButtonPressed(Button.B, function () {
+    if (lock){
+        lock = false
+        radio.sendString("unlock")
+        music.playTone(Note.D, 300)
+    }
 })
 
 radio.onReceivedNumber(function (receivedNumber: number){
     music.playTone(Note.D, 200)
-    basic.showNumber(receivedNumber)
+    basic.showNumber(receivedNumber/1000)
 })
+
