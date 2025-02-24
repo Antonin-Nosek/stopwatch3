@@ -1,3 +1,4 @@
+//start
 radio.setGroup(158)
 
 function connectionTest(){
